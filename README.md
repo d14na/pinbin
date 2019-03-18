@@ -1,3 +1,3 @@
 # Pinbin
 
-> IPFS pinned data manager.
+> IPFS data pinning service.

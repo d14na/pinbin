@@ -1,0 +1,68 @@
+{
+ "address": "1PinBincCd1wDstivSdcqeYyjwsZvs9rsk",
+ "address_index": 5648719,
+ "clone_root": "",
+ "cloneable": true,
+ "description": "IPFS pinning data manager.",
+ "files": {
+  "LICENSE": {
+   "sha512": "298a09da0c4e5be3b3436cfeff855ee96585e316411e0ba7afbf893dba02b843",
+   "size": 1077
+  },
+  "README.md": {
+   "sha512": "194b4638614fc98f950d015bfda06d8977552f1e00455606666163c4f708fe67",
+   "size": 639
+  },
+  "css/main.css": {
+   "sha512": "f1038402988afbba2740477b9a6de81fc44d96c81794cd59ae2c8acbcc58a05a",
+   "size": 1144
+  },
+  "data-default/data.json": {
+   "sha512": "19f080f96f4d51f8e047055d977a7659974011d1353ba0214cc6ea3ab080f3d3",
+   "size": 126
+  },
+  "data-default/users/content-default.json": {
+   "sha512": "0f23391384952142eb7f33e4bfd91efbfa41d4baf51498e31a04d52053d3c0f2",
+   "size": 464
+  },
+  "dbschema.json": {
+   "sha512": "51d6245cd3150b7f9b3f27675d290a3759eccdb70ecd65df9494f662889bf938",
+   "size": 630
+  },
+  "index.html": {
+   "sha512": "45b9f8daeb1dfd11ca60d6905e699669645adf3ae669ffd82b878a411be6ae3b",
+   "size": 2887
+  },
+  "js/ZeroApp-LEGACY.js": {
+   "sha512": "020e5635d416b07476fcd211662e8b7d97df9c3eba2932f287f6232ab4edf9be",
+   "size": 13696
+  },
+  "js/main.js": {
+   "sha512": "fe02184138203f1e137ff960ea4cfd1324ebbc86ab01f99f95f254f143e6e56a",
+   "size": 1525
+  },
+  "package.json": {
+   "sha512": "38d9c384bf1ef28ef4d1f8720e94878547697bbb1b3f8f8b189095153b5b5d5e",
+   "size": 277
+  }
+ },
+ "ignore": "(\\.git|data/.*|templates/)",
+ "includes": {
+  "data/users/content.json": {
+   "signers": [],
+   "signers_required": 1
+  }
+ },
+ "inner_path": "content.json",
+ "modified": 1552808135,
+ "optional": "",
+ "postmessage_nonce_security": true,
+ "signers_sign": "GzZ6Dg48As8a5F9fCEy+8TDJDOV5XvDrlGdk48wJxj1wX8tVTq6Wap75Xpl6S/LWMqUqkgtBM2vshp94Qir6eYw=",
+ "signs": {
+  "1PinBincCd1wDstivSdcqeYyjwsZvs9rsk": "HAJH8JAAQp67YaLSIKxTpuJi8YlUQMifFygV0kDx4pkDYEL/GnIY95e3TgS54TZr5hFCqPN3F3LDqsJwhMzotxo="
+ },
+ "signs_required": 1,
+ "title": "Pinbin",
+ "viewport": "width=device-width, initial-scale=1.0",
+ "zeronet_version": "0.6.4"
+}
