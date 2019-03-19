@@ -5,9 +5,9 @@ pragma solidity ^0.4.25;
  * Copyright (c) 2019 Decentralization Authority MDAO.
  * Released under the MIT License.
  *
- * Pinbin - IPFS data pinning manager.
+ * Pinbin - Metadata manager for the premier IPFS data pinning service.
  *
- * Version 19.3.17
+ * Version 19.3.18
  *
  * https://d14na.org
  * support@d14na.org
@@ -175,9 +175,15 @@ contract Pinbin is Owned {
     // NOTE: We are limited here by gas constraints.
     uint _MAX_BINS_PER_COLLECTION = 100;
 
-    event Example(
-        address indexed primary,
-        address secondary,
+    event Collection(
+        bytes32 indexed collectionId,
+        address indexed owner,
+        bytes data
+    );
+
+    event Bin(
+        bytes32 indexed binId,
+        address indexed owner,
         bytes data
     );
 
@@ -237,6 +243,16 @@ contract Pinbin is Owned {
      * Calculate Collection Id
      */
     function calcCollectionId(
+        string _collectionTitle
+    ) external view returns (bytes32 collectionId) {
+        /* Calculate the collection id. */
+        return calcCollectionId(msg.sender, _collectionTitle);
+    }
+
+    /**
+     * Calculate Collection Id
+     */
+    function calcCollectionId(
         address _owner,
         string _collectionTitle
     ) public view returns (bytes32 collectionId) {
@@ -246,24 +262,17 @@ contract Pinbin is Owned {
             _owner, '.',
             _collectionTitle
         ));
-
-        /* Return collection id. */
-        return collectionId;
     }
 
     /**
      * Calculate Bin Id
      */
     function calcBinId(
-        bytes32 _collectionId,
+        string _collectionTitle,
         string _binTitle
-    ) public view returns (bytes32 binId) {
-        /* Calculate the bin id. */
-        binId = keccak256(abi.encodePacked(
-            _namespace, ',',
-            _collectionId, '.',
-            _binTitle
-        ));
+    ) external view returns (bytes32 binId) {
+        /* Retrieve bin id. */
+        return calcBinId(msg.sender, _collectionTitle, _binTitle);
     }
 
     /**
@@ -281,6 +290,21 @@ contract Pinbin is Owned {
         binId = calcBinId(collectionId, _binTitle);
     }
 
+    /**
+     * Calculate Bin Id
+     */
+    function calcBinId(
+        bytes32 _collectionId,
+        string _binTitle
+    ) public view returns (bytes32 binId) {
+        /* Calculate the bin id. */
+        binId = keccak256(abi.encodePacked(
+            _namespace, ',',
+            _collectionId, '.',
+            _binTitle
+        ));
+    }
+
 
     /***************************************************************************
      *
@@ -294,8 +318,8 @@ contract Pinbin is Owned {
     function getCollection(
         bytes32 _collectionId
     ) external view returns (
-        uint numBins,
-        bytes bins
+        address location,
+        uint blockNum
     ) {
         /* Return collection. */
         return _getCollection(_collectionId);
@@ -308,8 +332,8 @@ contract Pinbin is Owned {
         address _owner,
         string _collectionTitle
     ) external view returns (
-        uint numBins,
-        bytes bins
+        address location,
+        uint blockNum
     ) {
         /* Retrieve collection id. */
         bytes32 collectionId = calcCollectionId(_owner, _collectionTitle);
@@ -327,35 +351,27 @@ contract Pinbin is Owned {
     function _getCollection(
         bytes32 _collectionId
     ) private view returns (
-        uint numBins,
-        bytes bins
+        address location,
+        uint blockNum
     ) {
-        /* Retrieve bins. */
-        bins = _zer0netDb.getBytes(_collectionId);
+        /* Retrieve location. */
+        location = _zer0netDb.getAddress(_collectionId);
 
-        /* Calculate number of bins. */
-        numBins = bins.length.div(32);
+        /* Retrieve block number. */
+        blockNum = _zer0netDb.getUint(_collectionId);
     }
 
     /**
      * Get Bin
      */
     function getBin(
-        address _owner,
-        string _collectionTitle,
-        string _binTitle
+        bytes32 _binId
     ) external view returns (
         address location,
         uint blockNum
     ) {
-        /* Retrieve collection id. */
-        bytes32 collectionId = calcCollectionId(_owner, _collectionTitle);
-
-        /* Retrieve bin id. */
-        bytes32 binId = calcBinId(collectionId, _binTitle);
-
         /* Return bin metadata. */
-        return getBin(binId);
+        return _getBin(_binId);
     }
 
     /**
@@ -376,7 +392,28 @@ contract Pinbin is Owned {
         ));
 
         /* Return bin metadata. */
-        return getBin(binId);
+        return _getBin(binId);
+    }
+
+    /**
+     * Get Bin
+     */
+    function getBin(
+        address _owner,
+        string _collectionTitle,
+        string _binTitle
+    ) external view returns (
+        address location,
+        uint blockNum
+    ) {
+        /* Retrieve collection id. */
+        bytes32 collectionId = calcCollectionId(_owner, _collectionTitle);
+
+        /* Retrieve bin id. */
+        bytes32 binId = calcBinId(collectionId, _binTitle);
+
+        /* Return bin metadata. */
+        return _getBin(binId);
     }
 
     /**
@@ -388,9 +425,9 @@ contract Pinbin is Owned {
      * NOTE: DApps can then read the `Pinned` event from the Ethereum
      *       Event Log, at the specified point, to recover the stored metadata.
      */
-    function getBin(
+    function _getBin(
         bytes32 _binId
-    ) public view returns (
+    ) private view returns (
         address location,
         uint blockNum
     ) {
@@ -430,84 +467,173 @@ contract Pinbin is Owned {
      */
 
     /**
-     * Save Meta(data)
+     * Save ALL
+     *
+     * Saves Bin data + Collection data.
      */
-    function saveMeta(
-        bytes32 _collectionId,
-        bytes32 _binId,
-        uint _contentId
+    function saveAll(
+        string _collectionTitle,
+        bytes _collectionData,
+        string _binTitle,
+        bytes _binData
     ) external returns (bool success) {
-        return _saveMeta(msg.sender, _collectionId, _binId, _contentId);
+        /* Save all. */
+        return saveAll(
+            msg.sender,
+            _collectionTitle,
+            _collectionData,
+            _binTitle,
+            _binData
+        );
+    }
+
+    /**
+     * Save ALL
+     *
+     * Saves Bin data + Collection data.
+     */
+    function saveAll(
+        address _owner,
+        string _collectionTitle,
+        bytes _collectionData,
+        string _binTitle,
+        bytes _binData
+    ) public returns (bool success) {
+        /* Save collection. */
+        saveCollection(_owner, _collectionTitle, _collectionData);
+
+        /* Save bin. */
+        saveBin(_owner, _collectionTitle, _binTitle, _binData);
+
+        /* Return success. */
+        return true;
     }
 
     // TODO Add Relayer option, using ECRecovery / signatures.
 
     /**
-     * Save Meta(data)
+     * Save Bin
      */
-    function _saveMeta(
+    function saveBin(
+        string _collectionTitle,
+        string _binTitle,
+        bytes _data
+    ) external returns (bool success) {
+        /* Save bin. */
+        return saveBin(
+            msg.sender,
+            _collectionTitle,
+            _binTitle,
+            _data
+        );
+    }
+
+    /**
+     * Save Bin
+     */
+    function saveBin(
+        address _owner,
+        string _collectionTitle,
+        string _binTitle,
+        bytes _data
+    ) public returns (bool success) {
+        /* Retrieve collection id. */
+        bytes32 collectionId = calcCollectionId(_owner, _collectionTitle);
+
+        /* Retrieve bin id. */
+        bytes32 binId = calcBinId(collectionId, _binTitle);
+
+        /* Save bin. */
+        return _saveBin(_owner, binId, _data);
+    }
+
+    /**
+     * Save Bin
+     */
+    function saveBin(
+        bytes32 _collectionId,
+        string _binTitle,
+        bytes _data
+    ) external returns (bool success) {
+        /* Save bin. */
+        return saveBin(
+            msg.sender,
+            _collectionId,
+            _binTitle,
+            _data
+        );
+    }
+
+    /**
+     * Save Bin
+     */
+    function saveBin(
         address _owner,
         bytes32 _collectionId,
-        bytes32 _binId,
-        uint _contentId
-    ) private returns (bool success) {
-        /* Calculate the data id. */
-        // bytes32 dataId = keccak256(abi.encodePacked(
-        //     _namespace, ',',
-        //     _owner, '.',
-        //     _collectionId, '.',
-        //     _binId
-        // ));
+        string _binTitle,
+        bytes _data
+    ) public returns (bool success) {
+        /* Retrieve bin id. */
+        bytes32 binId = calcBinId(_collectionId, _binTitle);
 
-        /* Set owner (address). */
-        _zer0netDb.setAddress(_binId, _owner);
-
-        /* Set IPFS content identifier. */
-        _zer0netDb.setUint(_binId, _contentId);
-
-        /* Retrieve bins. */
-        bytes memory bins = _zer0netDb.getBytes(_collectionId);
-
-        /* Calculate number of bins. */
-        uint numBins = bins.length.div(32);
-
-        /* Validate number of bins. */
-        // NOTE: Due to gas restraints, we limit the number of bins.
-        if (numBins.add(1) > _MAX_BINS_PER_COLLECTION) {
-            revert('Oops! You reached the MAXIMUM number of bins for this collection.');
-        }
-
-        /* Return success. */
-        return true;
+        /* Save bin. */
+        return _saveBin(_owner, binId, _data);
     }
 
+    // TODO Add Relayer option, using ECRecovery / signatures.
+
     /**
-     * Remove Collection
+     * Save Bin
      */
-    function _removeCollection(
-        bytes32 _parentId,
-        bytes32 _collectionId
+    function _saveBin(
+        address _owner,
+        bytes32 _binId,
+        bytes _data
     ) private returns (bool success) {
-        /* Validate ROOT collection. */
-        if (_parentId == 0x0) {
-            // TODO Consider setting restrictions on the root collection.
-        }
+        /* Set location. */
+        _zer0netDb.setAddress(_binId, address(this));
 
-        /* Set owner (address). */
-        bytes memory collection = _zer0netDb.getBytes(_parentId);
+        /* Set block number. */
+        _zer0netDb.setUint(_binId, block.number);
 
-        bytes memory updatedBins = _removeDataId(
-            collection, _collectionId);
-
-        /* (Re-)save bins to (parent) collection. */
-        _zer0netDb.setBytes(_parentId, updatedBins);
+        /* Broadcast event. */
+        emit Bin(_binId, _owner, _data);
 
         /* Return success. */
         return true;
     }
 
     /**
-     * Update Collection
+     * Save Collection
+     */
+    function saveCollection(
+        string _title,
+        bytes _data
+    ) external returns (bool success) {
+        /* Save collection. */
+        return saveCollection(msg.sender, _title, _data);
+    }
+
+    /**
+     * Save Collection
+     */
+    function saveCollection(
+        address _owner,
+        string _title,
+        bytes _data
+    ) public returns (bool success) {
+        /* Calculate collection id. */
+        // NOTE: We DO NOT permit external (pre-calculated) ids as input.
+        bytes32 collectionId = calcCollectionId(_owner, _title);
+
+        /* Save collection. */
+        return _saveCollection(_owner, collectionId, _data);
+    }
+
+    // TODO Add Relayer option, using ECRecovery / signatures.
+
+    /**
+     * Save Collection
      *
      * NOTE: This performs a (possibly expensive) storage of up to 100
      *       bins, encoded as `bytes32 _binId`.
@@ -541,12 +667,19 @@ contract Pinbin is Owned {
      *       priced below market at $6.99/mo.
      *
      */
-    function _updateCollection(
+    function _saveCollection(
+        address _owner,
         bytes32 _collectionId,
         bytes _data
     ) private returns (bool success) {
-        /* Set collection data. */
-        _zer0netDb.setBytes(_collectionId, _data);
+        /* Set location. */
+        _zer0netDb.setAddress(_collectionId, address(this));
+
+        /* Set block number. */
+        _zer0netDb.setUint(_collectionId, block.number);
+
+        /* Broadcast event. */
+        emit Collection(_collectionId, _owner, _data);
 
         /* Return success. */
         return true;
@@ -630,16 +763,6 @@ contract Pinbin is Owned {
      * UTILITIES
      *
      */
-
-    function _removeDataId(
-        bytes _data,
-        bytes32 _dataId
-    ) private pure returns (bytes data) {
-        /* Calculate number of bins. */
-        uint numBins = _data.length.div(32);
-
-        return _data;
-    }
 
     /**
      * Bytes-to-Address
