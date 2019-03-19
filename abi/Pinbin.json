@@ -1,44 +1,119 @@
 [
 	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_interfaceID",
-				"type": "bytes4"
-			}
-		],
-		"name": "supportsInterface",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bool"
-			}
-		],
+		"constant": false,
+		"inputs": [],
+		"name": "acceptOwnership",
+		"outputs": [],
 		"payable": false,
-		"stateMutability": "pure",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
-		"constant": true,
+		"constant": false,
 		"inputs": [
 			{
 				"name": "_collectionTitle",
 				"type": "string"
-			}
-		],
-		"name": "getCollection",
-		"outputs": [
-			{
-				"name": "location",
-				"type": "address"
 			},
 			{
-				"name": "blockNum",
-				"type": "uint256"
+				"name": "_collectionData",
+				"type": "bytes"
+			},
+			{
+				"name": "_binTitle",
+				"type": "string"
+			},
+			{
+				"name": "_binData",
+				"type": "bytes"
+			}
+		],
+		"name": "saveAll",
+		"outputs": [
+			{
+				"name": "success",
+				"type": "bool"
 			}
 		],
 		"payable": false,
-		"stateMutability": "view",
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_collectionId",
+				"type": "bytes32"
+			},
+			{
+				"name": "_binTitle",
+				"type": "string"
+			},
+			{
+				"name": "_data",
+				"type": "bytes"
+			}
+		],
+		"name": "saveBin",
+		"outputs": [
+			{
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_collectionTitle",
+				"type": "string"
+			},
+			{
+				"name": "_binTitle",
+				"type": "string"
+			},
+			{
+				"name": "_data",
+				"type": "bytes"
+			}
+		],
+		"name": "saveBin",
+		"outputs": [
+			{
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_title",
+				"type": "string"
+			},
+			{
+				"name": "_data",
+				"type": "bytes"
+			}
+		],
+		"name": "saveCollection",
+		"outputs": [
+			{
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -58,522 +133,6 @@
 		],
 		"payable": false,
 		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getRevision",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_binId",
-				"type": "bytes32"
-			}
-		],
-		"name": "getBin",
-		"outputs": [
-			{
-				"name": "location",
-				"type": "address"
-			},
-			{
-				"name": "blockNum",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_owner",
-				"type": "address"
-			},
-			{
-				"name": "_collectionTitle",
-				"type": "string"
-			},
-			{
-				"name": "_binTitle",
-				"type": "string"
-			},
-			{
-				"name": "_data",
-				"type": "bytes"
-			}
-		],
-		"name": "saveBin",
-		"outputs": [
-			{
-				"name": "success",
-				"type": "bool"
-			}
-		],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_owner",
-				"type": "address"
-			},
-			{
-				"name": "_title",
-				"type": "string"
-			},
-			{
-				"name": "_data",
-				"type": "bytes"
-			}
-		],
-		"name": "saveCollection",
-		"outputs": [
-			{
-				"name": "success",
-				"type": "bool"
-			}
-		],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_collectionId",
-				"type": "bytes32"
-			}
-		],
-		"name": "getCollection",
-		"outputs": [
-			{
-				"name": "location",
-				"type": "address"
-			},
-			{
-				"name": "blockNum",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_owner",
-				"type": "address"
-			},
-			{
-				"name": "_collectionTitle",
-				"type": "string"
-			},
-			{
-				"name": "_binTitle",
-				"type": "string"
-			}
-		],
-		"name": "calcBinId",
-		"outputs": [
-			{
-				"name": "binId",
-				"type": "bytes32"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_collectionTitle",
-				"type": "string"
-			},
-			{
-				"name": "_collectionData",
-				"type": "bytes"
-			},
-			{
-				"name": "_binTitle",
-				"type": "string"
-			},
-			{
-				"name": "_binData",
-				"type": "bytes"
-			}
-		],
-		"name": "saveAll",
-		"outputs": [
-			{
-				"name": "success",
-				"type": "bool"
-			}
-		],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_owner",
-				"type": "address"
-			},
-			{
-				"name": "_collectionId",
-				"type": "bytes32"
-			},
-			{
-				"name": "_binTitle",
-				"type": "string"
-			},
-			{
-				"name": "_data",
-				"type": "bytes"
-			}
-		],
-		"name": "saveBin",
-		"outputs": [
-			{
-				"name": "success",
-				"type": "bool"
-			}
-		],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [],
-		"name": "acceptOwnership",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_owner",
-				"type": "address"
-			},
-			{
-				"name": "_collectionTitle",
-				"type": "string"
-			},
-			{
-				"name": "_binTitle",
-				"type": "string"
-			}
-		],
-		"name": "getBin",
-		"outputs": [
-			{
-				"name": "location",
-				"type": "address"
-			},
-			{
-				"name": "blockNum",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_owner",
-				"type": "address"
-			},
-			{
-				"name": "_collectionTitle",
-				"type": "string"
-			}
-		],
-		"name": "calcCollectionId",
-		"outputs": [
-			{
-				"name": "collectionId",
-				"type": "bytes32"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_collectionId",
-				"type": "bytes32"
-			},
-			{
-				"name": "_binTitle",
-				"type": "string"
-			}
-		],
-		"name": "getBin",
-		"outputs": [
-			{
-				"name": "location",
-				"type": "address"
-			},
-			{
-				"name": "blockNum",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_collectionId",
-				"type": "bytes32"
-			},
-			{
-				"name": "_binTitle",
-				"type": "string"
-			},
-			{
-				"name": "_data",
-				"type": "bytes"
-			}
-		],
-		"name": "saveBin",
-		"outputs": [
-			{
-				"name": "success",
-				"type": "bool"
-			}
-		],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "owner",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_owner",
-				"type": "address"
-			},
-			{
-				"name": "_collectionTitle",
-				"type": "string"
-			},
-			{
-				"name": "_collectionData",
-				"type": "bytes"
-			},
-			{
-				"name": "_binTitle",
-				"type": "string"
-			},
-			{
-				"name": "_binData",
-				"type": "bytes"
-			}
-		],
-		"name": "saveAll",
-		"outputs": [
-			{
-				"name": "success",
-				"type": "bool"
-			}
-		],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_collectionTitle",
-				"type": "string"
-			},
-			{
-				"name": "_binTitle",
-				"type": "string"
-			},
-			{
-				"name": "_data",
-				"type": "bytes"
-			}
-		],
-		"name": "saveBin",
-		"outputs": [
-			{
-				"name": "success",
-				"type": "bool"
-			}
-		],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_title",
-				"type": "string"
-			},
-			{
-				"name": "_data",
-				"type": "bytes"
-			}
-		],
-		"name": "saveCollection",
-		"outputs": [
-			{
-				"name": "success",
-				"type": "bool"
-			}
-		],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_collectionTitle",
-				"type": "string"
-			},
-			{
-				"name": "_binTitle",
-				"type": "string"
-			}
-		],
-		"name": "calcBinId",
-		"outputs": [
-			{
-				"name": "binId",
-				"type": "bytes32"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_collectionId",
-				"type": "bytes32"
-			},
-			{
-				"name": "_binTitle",
-				"type": "string"
-			}
-		],
-		"name": "calcBinId",
-		"outputs": [
-			{
-				"name": "binId",
-				"type": "bytes32"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "newOwner",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_collectionTitle",
-				"type": "string"
-			}
-		],
-		"name": "calcCollectionId",
-		"outputs": [
-			{
-				"name": "collectionId",
-				"type": "bytes32"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getSuccessor",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -597,47 +156,6 @@
 		],
 		"payable": false,
 		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getPredecessor",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_owner",
-				"type": "address"
-			},
-			{
-				"name": "_collectionTitle",
-				"type": "string"
-			}
-		],
-		"name": "getCollection",
-		"outputs": [
-			{
-				"name": "location",
-				"type": "address"
-			},
-			{
-				"name": "blockNum",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -725,5 +243,363 @@
 		],
 		"name": "OwnershipTransferred",
 		"type": "event"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_owner",
+				"type": "address"
+			},
+			{
+				"name": "_collectionTitle",
+				"type": "string"
+			},
+			{
+				"name": "_binTitle",
+				"type": "string"
+			}
+		],
+		"name": "calcBinId",
+		"outputs": [
+			{
+				"name": "binId",
+				"type": "bytes32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_collectionTitle",
+				"type": "string"
+			},
+			{
+				"name": "_binTitle",
+				"type": "string"
+			}
+		],
+		"name": "calcBinId",
+		"outputs": [
+			{
+				"name": "binId",
+				"type": "bytes32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_collectionId",
+				"type": "bytes32"
+			},
+			{
+				"name": "_binTitle",
+				"type": "string"
+			}
+		],
+		"name": "calcBinId",
+		"outputs": [
+			{
+				"name": "binId",
+				"type": "bytes32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_owner",
+				"type": "address"
+			},
+			{
+				"name": "_collectionTitle",
+				"type": "string"
+			}
+		],
+		"name": "calcCollectionId",
+		"outputs": [
+			{
+				"name": "collectionId",
+				"type": "bytes32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_collectionTitle",
+				"type": "string"
+			}
+		],
+		"name": "calcCollectionId",
+		"outputs": [
+			{
+				"name": "collectionId",
+				"type": "bytes32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_binId",
+				"type": "bytes32"
+			}
+		],
+		"name": "getBin",
+		"outputs": [
+			{
+				"name": "location",
+				"type": "address"
+			},
+			{
+				"name": "blockNum",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_owner",
+				"type": "address"
+			},
+			{
+				"name": "_collectionTitle",
+				"type": "string"
+			},
+			{
+				"name": "_binTitle",
+				"type": "string"
+			}
+		],
+		"name": "getBin",
+		"outputs": [
+			{
+				"name": "location",
+				"type": "address"
+			},
+			{
+				"name": "blockNum",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_collectionId",
+				"type": "bytes32"
+			},
+			{
+				"name": "_binTitle",
+				"type": "string"
+			}
+		],
+		"name": "getBin",
+		"outputs": [
+			{
+				"name": "location",
+				"type": "address"
+			},
+			{
+				"name": "blockNum",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_collectionTitle",
+				"type": "string"
+			}
+		],
+		"name": "getCollection",
+		"outputs": [
+			{
+				"name": "location",
+				"type": "address"
+			},
+			{
+				"name": "blockNum",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_collectionId",
+				"type": "bytes32"
+			}
+		],
+		"name": "getCollection",
+		"outputs": [
+			{
+				"name": "location",
+				"type": "address"
+			},
+			{
+				"name": "blockNum",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_owner",
+				"type": "address"
+			},
+			{
+				"name": "_collectionTitle",
+				"type": "string"
+			}
+		],
+		"name": "getCollection",
+		"outputs": [
+			{
+				"name": "location",
+				"type": "address"
+			},
+			{
+				"name": "blockNum",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getPredecessor",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getRevision",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getSuccessor",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "newOwner",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_interfaceID",
+				"type": "bytes4"
+			}
+		],
+		"name": "supportsInterface",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "pure",
+		"type": "function"
 	}
 ]

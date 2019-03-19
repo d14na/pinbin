@@ -486,75 +486,76 @@ contract Pinbin is Owned {
         string _binTitle,
         bytes _binData
     ) external returns (bool success) {
-        /* Save all. */
-        return saveAll(
-            msg.sender,
-            _collectionTitle,
-            _collectionData,
-            _binTitle,
-            _binData
-        );
-    }
-
-    /**
-     * Save ALL
-     *
-     * Saves Bin data + Collection data.
-     */
-    function saveAll(
-        address _owner,
-        string _collectionTitle,
-        bytes _collectionData,
-        string _binTitle,
-        bytes _binData
-    ) public returns (bool success) {
         /* Save collection. */
-        saveCollection(_owner, _collectionTitle, _collectionData);
+        saveCollection(_collectionTitle, _collectionData);
 
         /* Save bin. */
-        saveBin(_owner, _collectionTitle, _binTitle, _binData);
+        saveBin(_collectionTitle, _binTitle, _binData);
 
         /* Return success. */
         return true;
     }
 
     // TODO Add Relayer option, using ECRecovery / signatures.
+    /**
+     * Save ALL
+     *
+     * Saves Bin data + Collection data.
+     */
+    // function saveAll(
+    //     address _owner,
+    //     string _collectionTitle,
+    //     bytes _collectionData,
+    //     string _binTitle,
+    //     bytes _binData
+    // ) public returns (bool success) {
+    //     /* Save collection. */
+    //     saveCollection(_owner, _collectionTitle, _collectionData);
+
+    //     /* Save bin. */
+    //     saveBin(_owner, _collectionTitle, _binTitle, _binData);
+
+    //     /* Return success. */
+    //     return true;
+    // }
 
     /**
      * Save Bin
      */
     function saveBin(
-        string _collectionTitle,
-        string _binTitle,
-        bytes _data
-    ) external returns (bool success) {
-        /* Save bin. */
-        return saveBin(
-            msg.sender,
-            _collectionTitle,
-            _binTitle,
-            _data
-        );
-    }
-
-    /**
-     * Save Bin
-     */
-    function saveBin(
-        address _owner,
         string _collectionTitle,
         string _binTitle,
         bytes _data
     ) public returns (bool success) {
         /* Retrieve collection id. */
-        bytes32 collectionId = calcCollectionId(_owner, _collectionTitle);
+        bytes32 collectionId = calcCollectionId(msg.sender, _collectionTitle);
 
         /* Retrieve bin id. */
         bytes32 binId = calcBinId(collectionId, _binTitle);
 
         /* Save bin. */
-        return _saveBin(_owner, binId, _data);
+        return _saveBin(msg.sender, binId, _data);
     }
+
+    // TODO Add Relayer option, using ECRecovery / signatures.
+    /**
+     * Save Bin
+     */
+    // function saveBin(
+    //     address _owner,
+    //     string _collectionTitle,
+    //     string _binTitle,
+    //     bytes _data
+    // ) public returns (bool success) {
+    //     /* Retrieve collection id. */
+    //     bytes32 collectionId = calcCollectionId(_owner, _collectionTitle);
+
+    //     /* Retrieve bin id. */
+    //     bytes32 binId = calcBinId(collectionId, _binTitle);
+
+    //     /* Save bin. */
+    //     return _saveBin(_owner, binId, _data);
+    // }
 
     /**
      * Save Bin
@@ -564,32 +565,29 @@ contract Pinbin is Owned {
         string _binTitle,
         bytes _data
     ) external returns (bool success) {
-        /* Save bin. */
-        return saveBin(
-            msg.sender,
-            _collectionId,
-            _binTitle,
-            _data
-        );
-    }
-
-    /**
-     * Save Bin
-     */
-    function saveBin(
-        address _owner,
-        bytes32 _collectionId,
-        string _binTitle,
-        bytes _data
-    ) public returns (bool success) {
         /* Retrieve bin id. */
         bytes32 binId = calcBinId(_collectionId, _binTitle);
 
         /* Save bin. */
-        return _saveBin(_owner, binId, _data);
+        return _saveBin(msg.sender, binId, _data);
     }
 
     // TODO Add Relayer option, using ECRecovery / signatures.
+    /**
+     * Save Bin
+     */
+    // function saveBin(
+    //     address _owner,
+    //     bytes32 _collectionId,
+    //     string _binTitle,
+    //     bytes _data
+    // ) public returns (bool success) {
+    //     /* Retrieve bin id. */
+    //     bytes32 binId = calcBinId(_collectionId, _binTitle);
+
+    //     /* Save bin. */
+    //     return _saveBin(_owner, binId, _data);
+    // }
 
     /**
      * Save Bin
@@ -618,28 +616,31 @@ contract Pinbin is Owned {
     function saveCollection(
         string _title,
         bytes _data
-    ) external returns (bool success) {
-        /* Save collection. */
-        return saveCollection(msg.sender, _title, _data);
-    }
-
-    /**
-     * Save Collection
-     */
-    function saveCollection(
-        address _owner,
-        string _title,
-        bytes _data
     ) public returns (bool success) {
         /* Calculate collection id. */
         // NOTE: We DO NOT permit external (pre-calculated) ids as input.
-        bytes32 collectionId = calcCollectionId(_owner, _title);
+        bytes32 collectionId = calcCollectionId(msg.sender, _title);
 
         /* Save collection. */
-        return _saveCollection(_owner, collectionId, _data);
+        return _saveCollection(msg.sender, collectionId, _data);
     }
 
     // TODO Add Relayer option, using ECRecovery / signatures.
+    /**
+     * Save Collection
+     */
+    // function saveCollection(
+    //     address _owner,
+    //     string _title,
+    //     bytes _data
+    // ) public returns (bool success) {
+    //     /* Calculate collection id. */
+    //     // NOTE: We DO NOT permit external (pre-calculated) ids as input.
+    //     bytes32 collectionId = calcCollectionId(_owner, _title);
+
+    //     /* Save collection. */
+    //     return _saveCollection(_owner, collectionId, _data);
+    // }
 
     /**
      * Save Collection
