@@ -557,21 +557,6 @@ contract Pinbin is Owned {
     //     return _saveBin(_owner, binId, _data);
     // }
 
-    /**
-     * Save Bin
-     */
-    function saveBin(
-        bytes32 _collectionId,
-        string _binTitle,
-        bytes _data
-    ) external returns (bool success) {
-        /* Retrieve bin id. */
-        bytes32 binId = calcBinId(_collectionId, _binTitle);
-
-        /* Save bin. */
-        return _saveBin(msg.sender, binId, _data);
-    }
-
     // TODO Add Relayer option, using ECRecovery / signatures.
     /**
      * Save Bin
