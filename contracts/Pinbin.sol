@@ -171,10 +171,6 @@ contract Pinbin is Owned {
     /* Set namespace. */
     string private _namespace = 'pinbin';
 
-    /* Set maximum number of bins per collection. */
-    // NOTE: We are limited here by gas constraints.
-    uint _MAX_BINS_PER_COLLECTION = 100;
-
     event Collection(
         bytes32 indexed collectionId,
         address indexed owner,
