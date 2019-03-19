@@ -19,6 +19,29 @@
 		"type": "function"
 	},
 	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_collectionTitle",
+				"type": "string"
+			}
+		],
+		"name": "getCollection",
+		"outputs": [
+			{
+				"name": "location",
+				"type": "address"
+			},
+			{
+				"name": "blockNum",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"constant": false,
 		"inputs": [
 			{

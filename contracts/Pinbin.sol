@@ -7,7 +7,7 @@ pragma solidity ^0.4.25;
  *
  * Pinbin - Metadata manager for the premier IPFS data pinning service.
  *
- * Version 19.3.18
+ * Version 19.3.19
  *
  * https://d14na.org
  * support@d14na.org
@@ -254,7 +254,7 @@ contract Pinbin is Owned {
     ) public view returns (bytes32 collectionId) {
         /* Calculate the collection id. */
         collectionId = keccak256(abi.encodePacked(
-            _namespace, ',',
+            _namespace, '.',
             _owner, '.',
             _collectionTitle
         ));
@@ -295,7 +295,7 @@ contract Pinbin is Owned {
     ) public view returns (bytes32 binId) {
         /* Calculate the bin id. */
         binId = keccak256(abi.encodePacked(
-            _namespace, ',',
+            _namespace, '.',
             _collectionId, '.',
             _binTitle
         ));
@@ -325,9 +325,22 @@ contract Pinbin is Owned {
      * Get Collection
      */
     function getCollection(
-        address _owner,
         string _collectionTitle
     ) external view returns (
+        address location,
+        uint blockNum
+    ) {
+        /* Return collection. */
+        return getCollection(msg.sender, _collectionTitle);
+    }
+
+    /**
+     * Get Collection
+     */
+    function getCollection(
+        address _owner,
+        string _collectionTitle
+    ) public view returns (
         address location,
         uint blockNum
     ) {
@@ -382,7 +395,7 @@ contract Pinbin is Owned {
     ) {
         /* Calculate the bin id. */
         bytes32 binId = keccak256(abi.encodePacked(
-            _namespace, ',',
+            _namespace, '.',
             _collectionId, '.',
             _binTitle
         ));
